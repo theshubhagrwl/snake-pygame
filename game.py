@@ -1,6 +1,8 @@
 import pygame
 import sys
 import random
+from tkinter import *
+from tkinter import messagebox
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
@@ -61,16 +63,16 @@ def main():
         # Check for boundary condition
         if x < 0:
             x = 0
-            print("Game over")
+            gameOver(score)
         elif y < 0:
             y = 0
-            print("Game over")
+            gameOver(score)
         elif x >= WINDOW_WIDTH-20:
             x = WINDOW_WIDTH-BLOCKSIZE
-            print("go")
+            gameOver(score)
         elif y >= WINDOW_HEIGHT-20:
             y = WINDOW_HEIGHT-BLOCKSIZE
-            print("GO")
+            gameOver(score)
 
         # Collision
         if x >= food_x and x < food_x + BLOCKSIZE or x+BLOCKSIZE >= food_x and x + BLOCKSIZE < food_x + BLOCKSIZE:
@@ -90,7 +92,7 @@ def main():
 
         for snake_element in snake_list[:-1]:
             if snake_element == snake_head:
-                print("game ober")
+                gameOver(score)
 
         showScore(score, score_x, score_y)
         snake(snake_list)
@@ -98,6 +100,16 @@ def main():
         pygame.display.update()
         SCREEN.fill(BLACK)
         CLOCK.tick(60)
+
+
+def gameOver(score):
+    root = Tk().wm_withdraw()
+    MsgBox = messagebox.askquestion(
+        'OOPS SNAKE BIT ITSELF!', "Your score was: " + str(score) + "\n" + 'Do you want to play again?', icon='question')
+    if MsgBox == 'yes':
+        main()
+    else:
+        sys.exit()
 
 
 def showScore(score, score_x, score_y):
