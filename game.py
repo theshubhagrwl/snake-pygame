@@ -33,8 +33,8 @@ def main():
     score_y = WINDOW_HEIGHT
     score = 0
 
-    food_y = round(random.randrange(20, WINDOW_HEIGHT-30, 10))
-    food_x = round(random.randrange(20, WINDOW_WIDTH-30, 10))
+    food_y = random.randrange(20, WINDOW_HEIGHT-30)
+    food_x = random.randrange(20, WINDOW_WIDTH-30)
 
     while True:
         # drawGrid()
@@ -74,13 +74,21 @@ def main():
             y = WINDOW_HEIGHT-BLOCKSIZE
             gameOver(score)
 
-        # Collision
-        if x >= food_x and x < food_x + BLOCKSIZE or x+BLOCKSIZE >= food_x and x + BLOCKSIZE < food_x + BLOCKSIZE:
-            if y >= food_y and y < food_y + BLOCKSIZE or y+BLOCKSIZE >= food_y and y + BLOCKSIZE < food_y + BLOCKSIZE:
-                food_y = round(random.randrange(20, WINDOW_HEIGHT-30, 10))
-                food_x = round(random.randrange(20, WINDOW_WIDTH-30, 10))
-                snake_length += 1
-                score += 1
+        # # Collision
+        # if x >= food_x and x < food_x + BLOCKSIZE or x+BLOCKSIZE >= food_x and x + BLOCKSIZE < food_x + BLOCKSIZE:
+        #     if y >= food_y and y < food_y + BLOCKSIZE or y+BLOCKSIZE >= food_y and y + BLOCKSIZE < food_y + BLOCKSIZE:
+        #         food_y = round(random.randrange(20, WINDOW_HEIGHT-30, 10))
+        #         food_x = round(random.randrange(20, WINDOW_WIDTH-30, 10))
+        #         snake_length += 1
+        #         score += 1
+
+        snake_rect = pygame.Rect(x, y, BLOCKSIZE, BLOCKSIZE)
+        food_rect = pygame.Rect(food_x, food_y, BLOCKSIZE, BLOCKSIZE)
+        if snake_rect.colliderect(food_rect):
+            food_y = round(random.randrange(20, WINDOW_HEIGHT-30, 10))
+            food_x = round(random.randrange(20, WINDOW_WIDTH-30, 10))
+            snake_length += 1
+            score += 1
 
         snake_head = []
         snake_head.append(x)
